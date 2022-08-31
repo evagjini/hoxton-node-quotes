@@ -51,7 +51,7 @@ const quotes =[
 app.get('/',(req, res) =>{
     res.send(`
     <h1> Motivational Quotes! </h2>
-    <p> Here are my favorite quotes : </p>
+    <p>  My favorite quotes : </p>
     <ul>
   <li> <a href="/quotes"> Quotes </a> </li>
     </ul>
