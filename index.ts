@@ -3,6 +3,7 @@ import cors from "cors";
 
 const app = express();
 app.use(cors());
+app.use(express.json())
 const port = 5000;
 
 const quotes = [
@@ -10,7 +11,7 @@ const quotes = [
     id: 1,
     firstName: "Winston",
     lastName: "Churchill",
-    age: "dead",
+    age: 72,
     quote:
       "Success is not final, failure is not fatal: it is the courage to continue that counts.",
     image:
@@ -30,7 +31,7 @@ const quotes = [
     id: 3,
     firstName: "Walt",
     lastname: " Whitman",
-    age: "dead",
+    age: 78,
     quote:
       "Keep your face always toward the sunshine, and shadows will fall behind you",
     image:
@@ -40,7 +41,7 @@ const quotes = [
     id: 4,
     firstName: "Audrey",
     lastName: "Hepburn",
-    age: "dead",
+    age: 68,
     quote: "Nothing is impossible. The word itself says 'I'm possible!",
     image:
       "https://www.biography.com/.image/t_share/MTc5OTk1NTMxMTYwODU1ODk2/audrey-hepburn-gettyimages-517443052.jpg",
