@@ -3,18 +3,19 @@ import cors from "cors";
 
 const app = express();
 app.use(cors());
-app.use(express.json())
+app.use(express.json());
 const port = 5000;
 
-type Quote  ={
-    id: number;
-    firstName: string;
-    lastName: string;
-    age: number;
-    quote: string;
-    image: string;
-} 
-const  quotes = [
+type Quote = {
+  id: number;
+  firstName: string;
+  lastName: string;
+  age: number;
+  quote: string;
+  image: string;
+};
+
+let quotes = [
   {
     id: 1,
     firstName: "Winston",
@@ -89,15 +90,12 @@ app.get("/", (req, res) => {
 app.get("/quotes/:id", (req, res) => {
   const id = Number(req.params.id);
   const idMatch = quotes.find((quote) => quote.id === id);
-  
-  if (idMatch){
 
+  if (idMatch) {
     res.send(idMatch);
+  } else {
+    res.status(404).send({ error: " Quote not found." });
   }
-  else{
-    res.status(404).send({error : ' Quote not found.'})
-  }
-  
 });
 
 app.post("/quotes", (req, res) => {
@@ -118,45 +116,40 @@ app.post("/quotes", (req, res) => {
   if (typeof req.body.image !== "string") {
     errors.push(" image  Its not a string!");
   }
-// anddd if there are noo manyy errors 
-if (errors.length === 0){
-    const newQuote: Quote  = {
-        id: quotes[quotes.length - 1].id + 1,
-        firstName: req.body.firstName,
-        lastName: req.body.lastName,
-        quote: req.body.quote,
-        age: req.body.age,
-        image: req.body.image,
-      };
-      quotes.push(newQuote);
-      res.send(newQuote);
-
-}
-else{
-    res.status(400).send({errors: errors})
-}
- 
- 
+  // anddd if there are noo manyy errors
+  if (errors.length === 0) {
+    const newQuote: Quote = {
+      id: quotes[quotes.length - 1].id + 1,
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      quote: req.body.quote,
+      age: req.body.age,
+      image: req.body.image,
+    };
+    quotes.push(newQuote);
+    res.send(newQuote);
+  } else {
+    res.status(400).send({ errors: errors });
+  }
 });
 
 app.get("/quotes", (req, res) => {
   res.send(quotes);
 });
 
-app.delete('/quotes/:id',(req,res)=>{
-    const id = Number(req.params.id)
-    const quoteToDelete = quotes.findIndex(quote => quote.id === id)
+app.delete("/quotes/:id", (req, res) => {
+  const id = Number(req.params.id);
+  const quoteIndexToDelete = quotes.findIndex((quote) => quote.id === id);
 
-    // if(quoteToDelete > -1){
-    //     quotes = quotes.filter(quote => quote.id !== id)
-    //     res.send({message: 'Quote deleted!'})
-    // }else {
-    //     res.status(404).send({error: 'Qoute not found!'})
-
-    // } 
-    quotes.splice(quoteToDelete, 1)
-    res.send(quotes)
-    })
+  if (quoteIndexToDelete > -1) {
+    quotes = quotes.filter((quote) => quote.id !== id);
+    res.send({ message: "Quote deleted!" });
+  } else {
+    res.status(404).send({ error: "Qoute not found!" });
+  }
+  // quotes.splice(quoteToDelete, 1)
+  // res.send(quotes)
+});
 
 app.listen(port, () => {
   console.log(` Yessss!!! http://localhost:${port} `);
