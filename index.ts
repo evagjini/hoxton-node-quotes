@@ -6,7 +6,15 @@ app.use(cors());
 app.use(express.json())
 const port = 5000;
 
-const quotes = [
+type Quote  ={
+    id: number;
+    firstName: string;
+    lastName: string;
+    age: number;
+    quote: string;
+    image: string;
+} 
+const  quotes = [
   {
     id: 1,
     firstName: "Winston",
@@ -95,7 +103,7 @@ app.get("/quotes/:id", (req, res) => {
 app.post("/quotes", (req, res) => {
   let errors: string[] = [];
 
-  if (typeof req.body.fisrtName !== "string") {
+  if (typeof req.body.firstName !== "string") {
     errors.push("FirstName Its not a string!");
   }
   if (typeof req.body.lastName !== "string") {
@@ -112,7 +120,7 @@ app.post("/quotes", (req, res) => {
   }
 // anddd if there are noo manyy errors 
 if (errors.length === 0){
-    const newQuote = {
+    const newQuote: Quote  = {
         id: quotes[quotes.length - 1].id + 1,
         firstName: req.body.firstName,
         lastName: req.body.lastName,
@@ -134,6 +142,21 @@ else{
 app.get("/quotes", (req, res) => {
   res.send(quotes);
 });
+
+app.delete('/quotes/:id',(req,res)=>{
+    const id = Number(req.params.id)
+    const quoteToDelete = quotes.findIndex(quote => quote.id === id)
+
+    // if(quoteToDelete > -1){
+    //     quotes = quotes.filter(quote => quote.id !== id)
+    //     res.send({message: 'Quote deleted!'})
+    // }else {
+    //     res.status(404).send({error: 'Qoute not found!'})
+
+    // } 
+    quotes.splice(quoteToDelete, 1)
+    res.send(quotes)
+    })
 
 app.listen(port, () => {
   console.log(` Yessss!!! http://localhost:${port} `);
