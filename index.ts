@@ -151,6 +151,40 @@ app.delete("/quotes/:id", (req, res) => {
   // res.send(quotes)
 });
 
+app.patch("/quotes/:id", (req, res) => {
+  // look for a quote
+  let id = Number(req.params.id);
+  let match = quotes.find((quote) => quote.id === id);
+
+  // soo if we fu=ind that match
+
+  if (match) {
+    if (req.body.firstName) {
+      match.firstName = req.body.firstName;
+    }
+
+    if (req.body.lastName) {
+      match.lastName = req.body.lastName;
+    }
+
+    if (req.body.age) {
+      match.age = req.body.age;
+    }
+
+    if (req.body.quote) {
+      match.quote = req.body.quote;
+    }
+
+    if (req.body.image) {
+      match.image = req.body.image;
+    }
+
+    res.send(match);
+  } else {
+    res.status(404).send({ error: "Quote not Found!" });
+  }
+});
+
 app.listen(port, () => {
   console.log(` Yessss!!! http://localhost:${port} `);
 });
