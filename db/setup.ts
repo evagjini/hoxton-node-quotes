@@ -1,8 +1,8 @@
 import Database from "better-sqlite3";
-const db = Database('./db/data.db', {verbose: console.log})
+const db = Database("./db/data.db", { verbose: console.log });
 
-
-  const  quotes = [
+function QuotesStuff() {
+  const quotes = [
     {
       id: 1,
       firstName: "Winston",
@@ -62,7 +62,8 @@ const db = Database('./db/data.db', {verbose: console.log})
         "https://i.pinimg.com/736x/20/4c/26/204c26eb24ece5255d495d3e1f3788b4.jpg",
     },
   ];
-const createQuotesTable = db.prepare(`
+
+  const createQuotesTable = db.prepare(`
 CREATE TABLE IF NOT EXISTS Quotes(
     id INTEGER,
     quote TEXT,
@@ -71,18 +72,25 @@ CREATE TABLE IF NOT EXISTS Quotes(
     image TEXT,
     age INTEGER,
     PRIMARY KEY(id)
-); `)
+); `);
 
+  createQuotesTable.run();
 
-createQuotesTable.run()
+  const deleteALLQuotes = db.prepare(`
+DELETE FROM Quotes`);
+  deleteALLQuotes.run();
 
-const deleteALLQuotes = db.prepare(`
-DELETE FROM Quotes`)
-deleteALLQuotes.run()
+  const createQuote = db.prepare(`
+INSERT INTO Quotes (quote, first_name, last_name,image, age) VALUES (?, ?,?,?,?)`);
 
-const createQuote = db.prepare(`
-INSERT INTO Quotes (quote, first_name, last_name,image, age) VALUES (?, ?,?,?,?)`)
-
-for ( let quote of quotes){
-    createQuote.run(quote.quote, quote.firstName,quote.lastName,quote.image,quote.age)
+  for (let quote of quotes) {
+    createQuote.run(
+      quote.quote,
+      quote.firstName,
+      quote.lastName,
+      quote.image,
+      quote.age
+    );
+  }
 }
+QuotesStuff();
