@@ -65,12 +65,12 @@ function QuotesStuff() {
 
   const createQuotesTable = db.prepare(`
 CREATE TABLE IF NOT EXISTS Quotes(
-    id INTEGER,
-    quote TEXT,
-    first_name TEXT,
-    last_name TEXT,
-    image TEXT,
-    age INTEGER,
+    id INTEGER NOT NULL,
+    quote TEXT NOT NULL,
+    first_name TEXT NOT NULL ,
+    last_name TEXT NOT NULL,
+    image TEXT NOT NULL ,
+    age INTEGER NOT NULL,
     PRIMARY KEY(id)
 ); `);
 
